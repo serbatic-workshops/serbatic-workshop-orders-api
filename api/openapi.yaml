@@ -1,0 +1,188 @@
+openapi: '3.0.3'
+info:
+  title: Serbatic Workshop Orders API
+  version: '1.0'
+servers:
+  - url: http://localhost:8080/v1
+paths:
+  /orders:
+    get:
+      tags:
+        - Orders
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      tags:
+        - Orders
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+  /orders/{id}:
+    get:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    put:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    delete:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /orders/{id}/status:
+    put:
+      tags:
+        - Orders
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  $ref: '#/components/schemas/OrderStatus'
+      responses:
+        '200':
+          description: OK   
+  /trackings/{id}:
+    get:
+      tags:
+        - Trackings
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 752a0bc7db750e94d234b34b3ca95cba
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/OrderStatus'
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          example: 1
+        track_id:
+          type: string
+          readOnly: true
+          example: 752a0bc7db750e94d234b34b3ca95cba
+        name:
+          type: string
+          example: John Doe
+        address:
+          type: string
+          example: Unknown Street, 11
+        zip_code:
+          type: string
+          example: 47001
+        status:
+          readOnly: true
+          allOf:
+            - $ref: '#/components/schemas/OrderStatus'
+    OrderStatus:
+      type: string
+      enum: 
+        - CREATED
+        - PREPARED
+        - SENT
+        - FINALIZED
+        - CANCELED
+      example: CREATED
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
