@@ -1,0 +1,18 @@
+{
+  "name": "serbatic-workshop-orders-api",
+  "version": "1.0.0",
+  "description": "Ejemplo de una api de pedidos",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "node --watch src/main.js"
+  },
+  "keywords": [],
+  "author": "Alejandro Alonso Mayo",
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c",
+  "dependencies": {
+    "@fastify/leveldb": "^6.0.1",
+    "fastify": "^5.1.0"
+  }
+}

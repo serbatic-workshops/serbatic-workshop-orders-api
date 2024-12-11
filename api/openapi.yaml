@@ -46,8 +46,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            example: 1
+            $ref: '#/components/schemas/OrderId'
       security:
         - BearerAuth: []
       responses:
@@ -65,8 +64,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            example: 1
+            $ref: '#/components/schemas/OrderId'
       security:
         - BearerAuth: []
       requestBody:
@@ -75,7 +73,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Order'
       responses:
-        '201':
+        '200':
           description: Created
           content:
             application/json:
@@ -89,8 +87,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            example: 1
+            $ref: '#/components/schemas/OrderId'
       security:
         - BearerAuth: []
       responses:
@@ -105,8 +102,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
-            example: 1
+            $ref: '#/components/schemas/OrderId'
       security:
         - ApiKeyAuth: []
       requestBody:
@@ -119,7 +115,7 @@ paths:
                   $ref: '#/components/schemas/OrderStatus'
       responses:
         '200':
-          description: OK   
+          description: OK
   /trackings/{id}:
     get:
       tags:
@@ -129,8 +125,7 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            example: 752a0bc7db750e94d234b34b3ca95cba
+            $ref: '#/components/schemas/OrderId'
       responses:
         '200':
           description: OK
@@ -147,13 +142,7 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          readOnly: true
-          example: 1
-        track_id:
-          type: string
-          readOnly: true
-          example: 752a0bc7db750e94d234b34b3ca95cba
+          $ref: '#/components/schemas/OrderId'
         name:
           type: string
           example: John Doe
@@ -162,14 +151,18 @@ components:
           example: Unknown Street, 11
         zip_code:
           type: string
-          example: 47001
+          example: '47001'
         status:
           readOnly: true
           allOf:
             - $ref: '#/components/schemas/OrderStatus'
+    OrderId:
+      type: string
+      format: uuid
+      readOnly: true
     OrderStatus:
       type: string
-      enum: 
+      enum:
         - CREATED
         - PREPARED
         - SENT
@@ -185,4 +178,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
